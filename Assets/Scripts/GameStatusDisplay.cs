@@ -31,7 +31,7 @@ public class GameStatusDisplay : MonoBehaviour {
 		if (_amIWinTheGame == true) {
 			SceneSwithTimer ();
 
-			if (_sceneIndex == 3) {
+			if (_sceneIndex == 6) {
 				timeText = timeLeftToSwitch.ToString ("f0");
 				gameStatus = "Wow! You made it!!!!!" + "\n" + "Go back to Start in " + timeText + " sec";
 				gameStatusText.text = gameStatus;
@@ -48,7 +48,7 @@ public class GameStatusDisplay : MonoBehaviour {
 		}
 
 		if (_amIWinTheGame == true && isTimeToSwitch == true) {
-			if (nextSceneIndext > 3) {
+			if (nextSceneIndext > 6) {
 				SceneManager.LoadScene (0);
 			} else {
 				SceneManager.LoadScene (nextSceneIndext);

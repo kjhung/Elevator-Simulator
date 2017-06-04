@@ -16,47 +16,82 @@ public class ElevatorConductor : MonoBehaviour {
 	[HideInInspector] public float holdTimer;
 	[HideInInspector] bool elevatorMove;
 
-	GameObject passenger;
-	public int _numberOfPassengrs;
-	int passengerIndex;
-	float passengerComeInTime;
-	GameObject [] passengerArray;
+	[HideInInspector] GameObject passenger;
+	[HideInInspector] int _numberOfPassengrs;
+	[HideInInspector] int passengerIndex;
+	[HideInInspector] float passengerComeInTime;
+	[HideInInspector] GameObject [] passengerArray;
+	SceneFading _SceneFading;
 
+
+	AudioSource elevatorSound;
+	AudioClip dingSFX;
+
+//	Image _FadeBlack;
+//	Color imageColor;
+//	float fadeSpeed;
+//	float fadeTime;
+//	float alpha;
+//	bool valueGet = false;
+
+	bool sceneChange;
+
+	int sceneIndex;
 
 	void Start () {
+		_SceneFading = GameObject.Find ("SceneFading").GetComponent<SceneFading> ();
+
+		sceneIndex = SceneManager.GetActiveScene ().buildIndex;
 
 		holdTimer = 0f;
-
 		floorNumber = GameObject.Find ("MainElevator").GetComponentInChildren<Text> ();
-		startFloorNumber = Random.Range (30, 50);
+		startFloorNumber = Random.Range (20, 40);
 		startFloorNumberToString = startFloorNumber.ToString ();
 		floorNumber.text = startFloorNumberToString;
 
 		elevatorStopSign = Random.Range (3, 8);
 		elevatorMove = true;
 
-		_numberOfPassengrs = 7;
+		if (sceneIndex == 1) {
+			_numberOfPassengrs = 3;
+		}
+		else if (sceneIndex == 3) {
+			_numberOfPassengrs = 5;
+		}
+		else if (sceneIndex == 5) {
+			_numberOfPassengrs = 7;
+		}
+
 		passengerIndex = 0;
 		passengerArray = new GameObject[_numberOfPassengrs];
 
 		for (int i = 0; i < _numberOfPassengrs; i++) {
 			string passengerName = "Audience" + i;
 			passenger = GameObject.Find (passengerName);
+			passenger.GetComponent<Animation> ().wrapMode = WrapMode.Loop;
 			passengerArray [i] = passenger;
 			passengerArray [i].SetActive(false);
 		}
+
+		elevatorSound = GetComponent<AudioSource> (); 
+
+		_SceneFading.FadeSetup ();
+		//FadeSetup ();
 	}
 	
 	void Update () {
 
+		sceneChange = false;
+
 		holdTimer += Time.deltaTime;
 		passengerComeInTime += Time.deltaTime;
 
-		if (passengerComeInTime >= 5.0f) {
-			
-			passengerArray [passengerIndex].SetActive (true);
-			passengerIndex++;
-			passengerComeInTime = 0f;
+		if (passengerIndex <= _numberOfPassengrs-1) {
+			if (passengerComeInTime >= 5.0f) {
+				passengerArray [passengerIndex].SetActive (true);
+				passengerIndex++;
+				passengerComeInTime = 0f;
+			}
 		}
 
 		if (elevatorMove == true) {
@@ -77,9 +112,22 @@ public class ElevatorConductor : MonoBehaviour {
 		}
 
 		if (startFloorNumber == 1) {
-			
+
+			sceneChange = true;
 		}
-			
+
+		if(sceneChange){
+
+			_SceneFading.FadeStart();
+
+			if (elevatorSound.isPlaying == false) {
+				elevatorSound.PlayOneShot (elevatorSound.clip);
+			}
+				
+			if (_SceneFading.valueGet == true) {
+				SceneManager.LoadScene (sceneIndex + 1);
+			}
+		}
 	}
 
 	IEnumerator StopElevator(int waitTime){
@@ -87,4 +135,28 @@ public class ElevatorConductor : MonoBehaviour {
 		yield return new WaitForSeconds (5);
 		elevatorMove = true;
 	}
+		
+
+//	void FadeSetup () {
+//		_FadeBlack = GameObject.Find ("FadeInOut").GetComponent<Image> ();
+//		imageColor = _FadeBlack.color;
+//		fadeSpeed = 0.9f;
+//	}
+//
+//	void FadeStart () {
+//		fadeTime += Time.deltaTime;
+//
+//		if (alpha < 1) {
+//			alpha += (float)fadeSpeed * Time.deltaTime;
+//			imageColor.a = alpha;
+//			_FadeBlack.color = imageColor;
+//		}
+//
+//		if (alpha > 1) {
+//			if (valueGet == false) {
+//				valueGet = true;
+//			}
+//		}
+//	}
+
 }

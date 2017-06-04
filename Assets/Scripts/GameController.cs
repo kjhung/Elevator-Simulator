@@ -25,11 +25,11 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		sceneIndex = SceneManager.GetActiveScene ().buildIndex;
 
-		if (sceneIndex == 1) {
+		if (sceneIndex == 2) {
 			numberOfTargets = 3;
-		}else if(sceneIndex == 2){
+		}else if(sceneIndex == 4){
 			numberOfTargets = 5;
-		}else if(sceneIndex == 3){
+		}else if(sceneIndex == 6){
 			numberOfTargets = 7;
 		}
 
@@ -42,13 +42,7 @@ public class GameController : MonoBehaviour {
 		gameOver = false;
 
 		for (int i = 0; i < numberOfTargets; i++) {
-			// 1 and 2 are quite hard to press, so disable them intentionally.
-			// 6 and 49 don't work for no reason.
-			randomNumber = Random.Range (6,51);
-
-//			if(randomNumber == 6 || randomNumber == 34 || randomNumber == 23 ||randomNumber == 49){
-//				randomNumber = Random.Range (1,51);	
-//			}
+			randomNumber = Random.Range (11,51);
 			targetFloors [i] = randomNumber;
 		}
 	}

@@ -33,7 +33,7 @@ public class RaycastTargetTrigger : MonoBehaviour {
 		countdownImage = GameObject.Find ("CanvasForFPS").GetComponentInChildren<Image> ();
 		countdownImage.fillAmount = 0;
 		countdonwTimer = 0;
-		countdownDelay = 1.0f;
+		countdownDelay = .6f;
 	}
 
 
