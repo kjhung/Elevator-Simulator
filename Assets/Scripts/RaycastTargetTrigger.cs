@@ -54,6 +54,7 @@ public class RaycastTargetTrigger : MonoBehaviour {
 		countdonwTimerStart = false;
 		countdonwTimer = 0;
 		countdownImage.fillAmount = 0;
+		timeToTurnLight = false;
 	}
 
 	// will constantly happen every frame, while thing is NOT being looked at
