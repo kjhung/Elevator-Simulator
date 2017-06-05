@@ -104,6 +104,9 @@ public class RaycastTargetTrigger : MonoBehaviour {
 
 		// if we are using VR, we can get more accurate info by reading the tracking info directly
 		// (this also fixes a bug in OSX when using Unity's Standard Assets FPSController and MouseLook, where Camera forward is based on mouse)
+		// =====
+		// CAUTION: COMMENT LINES BELOW IF TESTING WITH MOUSE
+		// =====
 		if ( VRSettings.loadedDevice != VRDeviceType.None ) {
 			// shoot a ray based on the HMD's reported rotation
 			rayDirection = InputTracking.GetLocalRotation(VRNode.CenterEye) * Vector3.forward; 
@@ -112,11 +115,13 @@ public class RaycastTargetTrigger : MonoBehaviour {
 				rayDirection = Camera.main.transform.parent.TransformDirection( rayDirection ); 
 			}
 		}
+		// ===== HMD/MOUSE SWITH ABOVE =====//
+
 
 		// actually construct the ray
 		Ray ray = new Ray( rayOrigin, rayDirection );
 		// visualize all this stuff in Scene View
-		Debug.DrawRay( ray.origin, ray.direction * maximumDistance, Color.yellow); 
+		Debug.DrawRay( ray.origin, ray.direction * maximumDistance, Color.red); 
 
 		// STEP 2: setting up a blank var to know where we hit something
 		RaycastHit rayHitInfo = new RaycastHit(); 

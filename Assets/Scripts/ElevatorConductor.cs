@@ -34,8 +34,6 @@ public class ElevatorConductor : MonoBehaviour {
 //	float alpha;
 //	bool valueGet = false;
 
-	bool sceneChange;
-
 	int sceneIndex;
 
 	void Start () {
@@ -45,7 +43,7 @@ public class ElevatorConductor : MonoBehaviour {
 
 		holdTimer = 0f;
 		floorNumber = GameObject.Find ("MainElevator").GetComponentInChildren<Text> ();
-		startFloorNumber = Random.Range (20, 40);
+		startFloorNumber = Random.Range (10, 20);
 		startFloorNumberToString = startFloorNumber.ToString ();
 		floorNumber.text = startFloorNumberToString;
 
@@ -81,8 +79,6 @@ public class ElevatorConductor : MonoBehaviour {
 	
 	void Update () {
 
-		sceneChange = false;
-
 		holdTimer += Time.deltaTime;
 		passengerComeInTime += Time.deltaTime;
 
@@ -113,18 +109,13 @@ public class ElevatorConductor : MonoBehaviour {
 
 		if (startFloorNumber == 1) {
 
-			sceneChange = true;
-		}
-
-		if(sceneChange){
-
-			_SceneFading.FadeStart();
-
 			if (elevatorSound.isPlaying == false) {
 				elevatorSound.PlayOneShot (elevatorSound.clip);
 			}
-				
-			if (_SceneFading.valueGet == true) {
+
+			_SceneFading.FadeStart();
+//			if (valueGet) {
+			if (_SceneFading.valueGet) {
 				SceneManager.LoadScene (sceneIndex + 1);
 			}
 		}
@@ -135,7 +126,12 @@ public class ElevatorConductor : MonoBehaviour {
 		yield return new WaitForSeconds (5);
 		elevatorMove = true;
 	}
-		
+
+	IEnumerator PlaSFX () {
+		elevatorSound = GetComponent<AudioSource> ();
+		elevatorSound.Play ();
+		yield return new WaitForSeconds (2);
+	}
 
 //	void FadeSetup () {
 //		_FadeBlack = GameObject.Find ("FadeInOut").GetComponent<Image> ();

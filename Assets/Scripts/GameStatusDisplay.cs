@@ -48,7 +48,7 @@ public class GameStatusDisplay : MonoBehaviour {
 		}
 
 		if (_amIWinTheGame == true && isTimeToSwitch == true) {
-			if (nextSceneIndext > 6) {
+			if (nextSceneIndext > 3) {
 				SceneManager.LoadScene (0);
 			} else {
 				SceneManager.LoadScene (nextSceneIndext);
